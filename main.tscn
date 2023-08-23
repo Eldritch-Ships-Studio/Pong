@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://cttu15mkjo28"]
+
+[ext_resource type="PackedScene" uid="uid://cpiqpi3hhwvuo" path="res://wall.tscn" id="1_lfcer"]
+[ext_resource type="Script" path="res://main.gd" id="1_wax0r"]
+[ext_resource type="PackedScene" uid="uid://cin7wwe036x58" path="res://playerPaddle.tscn" id="2_qe4ug"]
+[ext_resource type="PackedScene" uid="uid://bumpkdqltkcq1" path="res://ui.tscn" id="2_sinbn"]
+[ext_resource type="Script" path="res://enemyPaddle.gd" id="3_w68we"]
+[ext_resource type="PackedScene" uid="uid://cjj10mxhwqcd0" path="res://ball.tscn" id="4_glxrn"]
+[ext_resource type="PackedScene" uid="uid://xv8u8ts46o4q" path="res://scoreBox.tscn" id="5_56gbu"]
+[ext_resource type="Script" path="res://scoreBox.gd" id="6_iylo8"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_wax0r")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="UI" parent="." instance=ExtResource("2_sinbn")]
+
+[node name="topwall" parent="." instance=ExtResource("1_lfcer")]
+position = Vector2(0, -500)
+scale = Vector2(5, 5)
+
+[node name="bottomwall" parent="." instance=ExtResource("1_lfcer")]
+position = Vector2(0, 500)
+rotation = 3.14159
+scale = Vector2(5, 5)
+
+[node name="leftwall" parent="." instance=ExtResource("1_lfcer")]
+position = Vector2(-730, 0)
+rotation = -1.5708
+scale = Vector2(3, 3)
+
+[node name="rightwall" parent="." instance=ExtResource("1_lfcer")]
+position = Vector2(730, 0)
+rotation = 1.5708
+scale = Vector2(3, 3)
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, -500, 0, 500)
+width = 16.0
+default_color = Color(0.360784, 0.364706, 0.858824, 1)
+
+[node name="playerPaddle" parent="." instance=ExtResource("2_qe4ug")]
+position = Vector2(-600, -1)
+
+[node name="enemyPaddle" parent="." node_paths=PackedStringArray("ball") instance=ExtResource("2_qe4ug")]
+position = Vector2(600, 0)
+script = ExtResource("3_w68we")
+paddle_speed = 50000
+ball = NodePath("../ball")
+
+[node name="ball" parent="." instance=ExtResource("4_glxrn")]
+scale = Vector2(0.5, 0.5)
+
+[node name="scoreBoxLeft" parent="." instance=ExtResource("5_56gbu")]
+position = Vector2(-642, 0)
+scale = Vector2(3, 34)
+script = ExtResource("6_iylo8")
+
+[node name="scoreBoxRight" parent="." instance=ExtResource("5_56gbu")]
+position = Vector2(642, 0)
+scale = Vector2(3, 34)
+script = ExtResource("6_iylo8")
+
+[connection signal="body_entered" from="scoreBoxLeft" to="scoreBoxLeft" method="_on_body_entered"]
+[connection signal="point_scored" from="scoreBoxLeft" to="." method="_on_score_box_left_point_scored"]
+[connection signal="body_entered" from="scoreBoxRight" to="scoreBoxRight" method="_on_body_entered"]
+[connection signal="point_scored" from="scoreBoxRight" to="." method="_on_score_box_right_point_scored"]

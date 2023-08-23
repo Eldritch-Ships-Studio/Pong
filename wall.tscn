@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpiqpi3hhwvuo"]
+
+[ext_resource type="Texture2D" uid="uid://cyrt3vl3l8s0p" path="res://Sprites/glasspaddle2.png" id="1_oy3sp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gaar0"]
+size = Vector2(256, 64)
+
+[node name="Wall" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_oy3sp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gaar0")
